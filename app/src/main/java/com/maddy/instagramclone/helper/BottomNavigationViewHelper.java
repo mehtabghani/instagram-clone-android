@@ -23,6 +23,12 @@ public class BottomNavigationViewHelper {
 
 
     public static void setupBottomNavigationView(BottomNavigationViewEx bottomNavigationViewEx){
+        
+        if(bottomNavigationViewEx == null) {
+            Log.e(TAG, "setupBottomNavigationView: Error: null");
+            return;
+        }
+
         Log.d(TAG, "setupBottomNavigationView: setting up navigation view.");
         bottomNavigationViewEx.enableAnimation(false);
         bottomNavigationViewEx.enableItemShiftingMode(false);
