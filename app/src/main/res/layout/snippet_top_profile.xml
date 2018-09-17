@@ -28,25 +28,27 @@
         <TextView
             android:id="@+id/tvPostsText"
             android:layout_width="50dp"
-            android:layout_height="16dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="5dp"
-            android:textAlignment="center"
             android:text="Posts"
+            android:textAlignment="center"
             android:textSize="12sp"
-            app:layout_constraintTop_toBottomOf="@+id/tvPosts"
-            tools:layout_editor_absoluteX="10dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvPosts" />
 
         <TextView
             android:id="@+id/tvFollowers"
             android:layout_width="50dp"
-            android:layout_height="24dp"
+            android:layout_height="25dp"
             android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:textAlignment="center"
             android:text="300"
+            android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -65,8 +67,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="5dp"
             android:text="Followers"
-            android:textSize="12sp"
             android:textAlignment="center"
+            android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@+id/tvFollowingText"
             app:layout_constraintHorizontal_bias="0.549"
             app:layout_constraintStart_toEndOf="@+id/tvPostsText"
@@ -89,14 +91,14 @@
 
         <TextView
             android:id="@+id/tvFollowingText"
-            android:layout_width="52dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="5dp"
             android:text="Following"
-            android:textSize="12sp"
             android:textAlignment="center"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvFollowing" />
 

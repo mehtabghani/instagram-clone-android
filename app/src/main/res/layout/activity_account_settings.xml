@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".activity.AccountSettingsActivity">
 
+    <include layout="@layout/layout_center_viewpager"/>
 
     <RelativeLayout
         android:id="@+id/setting_rel_layout1"
@@ -16,7 +17,7 @@
         <RelativeLayout
             android:id="@+id/setting_rel_layout2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="50dp">
             <include layout="@layout/snippet_account_settings_toolbar"/>
 
         </RelativeLayout>

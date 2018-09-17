@@ -15,6 +15,8 @@ import com.maddy.instagramclone.fragment.CameraFragment;
 import com.maddy.instagramclone.fragment.HomeFragment;
 import com.maddy.instagramclone.fragment.MessageFragment;
 import com.maddy.instagramclone.helper.BottomNavigationViewHelper;
+import com.maddy.instagramclone.util.UniversalImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -26,9 +28,18 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         Log.d(TAG, "onCreate: starting");
 
+        initImageLoader();
         setupViewPager();
         setupBottomNavigationView();
     }
+
+
+
+    private void initImageLoader() {
+        UniversalImageLoader universalImageLoader = new UniversalImageLoader(HomeActivity.this);
+        ImageLoader.getInstance().init(universalImageLoader.getConfig());
+    }
+
 
     /**
      * Responsible for adding 3 tabs: Camera, Home and Message
@@ -39,7 +50,7 @@ public class HomeActivity extends AppCompatActivity {
         adapter.addFragment(new CameraFragment()); //index 0
         adapter.addFragment(new HomeFragment());
         adapter.addFragment(new MessageFragment());
-        ViewPager viewPager = (ViewPager)findViewById(R.id.container);
+        ViewPager viewPager = (ViewPager)findViewById(R.id.view_pager_container);
         viewPager.setAdapter(adapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);

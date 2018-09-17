@@ -1,18 +1,21 @@
 package com.maddy.instagramclone.activity;
 
 import android.content.Context;
-import android.media.Image;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.maddy.instagramclone.R;
+import com.maddy.instagramclone.adapter.SectionStatePagerAdapter;
+import com.maddy.instagramclone.fragment.EditProfileFragment;
+import com.maddy.instagramclone.fragment.SignOutFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +24,9 @@ public class AccountSettingsActivity extends AppCompatActivity {
 
     private static final String TAG = "AccountSettingsActivity";
     private Context mContext = AccountSettingsActivity.this;
+    private SectionStatePagerAdapter mStatePagerAdapter;
+    private ViewPager mViewPager;
+    private RelativeLayout mRelativeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +34,27 @@ public class AccountSettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_account_settings);
         Log.d(TAG, "onCreate: activity created");
 
+
+        mViewPager = (ViewPager) findViewById(R.id.view_pager_container);
+        mRelativeLayout = (RelativeLayout) findViewById(R.id.setting_rel_layout1);
+
+        setupFragment();
         setupBackButton();
         setUpSettingsList();
     }
 
+    private void setupFragment() {
+        mStatePagerAdapter = new SectionStatePagerAdapter(getSupportFragmentManager());
+        mStatePagerAdapter.addFragment(new EditProfileFragment(), getString(R.string.edit_profile_fragment));
+        mStatePagerAdapter.addFragment(new SignOutFragment(), getString(R.string.sign_out_fragment));
+    }
+
+    private void setViewPager(int fragmentNumber) {
+        mRelativeLayout.setVisibility(View.GONE);
+        Log.d(TAG, "setViewPager: navigatin to fragment number: " + fragmentNumber);
+        mViewPager.setAdapter(mStatePagerAdapter);
+        mViewPager.setCurrentItem(fragmentNumber);
+    }
 
     private void setupBackButton() {
 
@@ -49,8 +72,8 @@ public class AccountSettingsActivity extends AppCompatActivity {
     private void setUpSettingsList () {
 
         List<String> options = new ArrayList<>();
-        options.add(getString(R.string.edit_profile));
-        options.add(getString(R.string.sign_out));
+        options.add(getString(R.string.edit_profile_fragment));
+        options.add(getString(R.string.sign_out_fragment));
 
         ListView listView = (ListView) findViewById(R.id.account_setting_recycler_view);
 
@@ -59,9 +82,15 @@ public class AccountSettingsActivity extends AppCompatActivity {
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long l) {
+                Log.d(TAG, "onItemClick: navigatin to fragment position: " + pos);
+                setViewPager(pos);
             }
         });
+    }
+
+
+    private void setupFragments() {
+
     }
 }
