@@ -20,6 +20,7 @@ tools:context=".activity.ProfileActivity">
     <include layout="@layout/layout_bottom_navigation_view"/>
 
     <ProgressBar
+        android:id="@+id/profile_progress_bar"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_centerInParent="true"/>

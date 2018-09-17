@@ -19,7 +19,8 @@
         <activity android:name=".activity.SearchActivity" />
         <activity android:name=".activity.ProfileActivity" />
         <activity android:name=".activity.ShareActivity" />
-        <activity android:name=".activity.LikesActivity"></activity>
+        <activity android:name=".activity.LikesActivity" />
+        <activity android:name=".activity.AccountSettingsActivity"></activity>
     </application>
 
 </manifest>

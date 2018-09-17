@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.AccountSettingsActivity">
+
+
+    <RelativeLayout
+        android:id="@+id/setting_rel_layout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Top bar -->
+        <RelativeLayout
+            android:id="@+id/setting_rel_layout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <include layout="@layout/snippet_account_settings_toolbar"/>
+
+        </RelativeLayout>
+
+
+        <!-- Middle section -->
+
+    <RelativeLayout
+        android:id="@+id/setting_rel_layout3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/setting_rel_layout2"
+        android:layout_marginBottom="50dp">
+
+        <include layout="@layout/layout_center_account_settings"/>
+
+    </RelativeLayout>
+
+        <include layout="@layout/layout_bottom_navigation_view"/>
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>
