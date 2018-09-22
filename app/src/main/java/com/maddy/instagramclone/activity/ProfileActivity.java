@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.maddy.instagramclone.R;
+import com.maddy.instagramclone.adapter.GridImageAdapter;
 import com.maddy.instagramclone.helper.BottomNavigationViewHelper;
 import com.maddy.instagramclone.util.UniversalImageLoader;
 
@@ -28,6 +29,7 @@ public class ProfileActivity extends AppCompatActivity {
     private static final String TAG = "ProfileActivity";
     private Context mContext = ProfileActivity.this;
     private ImageView mProfilePhoto;
+    private static final int NUM_GRID_COLUMNS = 3;
 
 
     @Override
@@ -40,6 +42,7 @@ public class ProfileActivity extends AppCompatActivity {
         setupBottomNavigationView();
         setupActivityWidget();
         setProfilePhoto();
+        tempGridSetup();
     }
 
     private void setupToolbar() {
@@ -85,11 +88,28 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    private void setupGridView(ArrayList<String> imgURLs) {
+    private void tempGridSetup() {
+        ArrayList<String> imgUrls = new ArrayList<>();
 
-        GridView gridView = (GridView) findViewById(R.id.profile_grid_view);
+        for (int i=0; i<20; i++)
+            imgUrls.add("cdn.animegame.me/uploads/update_gif/animegame.me14812575954185.jpg");
+
+        setupGridView(imgUrls);
 
     }
 
+    private void setupGridView(ArrayList<String> imgURLs) {
+        GridView gridView = (GridView) findViewById(R.id.profile_grid_view);
+
+        int gridWidth = getResources().getDisplayMetrics().widthPixels; // getting screen width
+        int imageWidth = gridWidth/NUM_GRID_COLUMNS;
+
+        gridView.setColumnWidth(imageWidth);
+
+        GridImageAdapter adapter =
+                new GridImageAdapter(mContext, R.layout.layout_grid_image_view, "https://", imgURLs);
+        gridView.setAdapter(adapter);
+
+    }
 
 }
