@@ -6,6 +6,7 @@
 
 
     <color name="grey">#bfbfbf</color>
+    <color name="loader_bg_grey">#afaeae</color>
     <color name="white">#fff</color>
     <color name="black">#000000</color>
     <color name="link_blue">#4d94ff</color>
