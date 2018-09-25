@@ -20,12 +20,15 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.maddy.instagramclone.R;
+import com.maddy.instagramclone.helper.FireBaseHelper;
+import com.maddy.instagramclone.helper.iFireBaseListener;
 
 public class LoginActivity extends BaseActivity {
 
     private static final String TAG = "LoginActivity";
 
     private Context mContext = LoginActivity.this;
+    private FireBaseHelper mFireBaseHelper;
 
     //widgets
     private EditText mEmailField, mPasswordField;
@@ -41,7 +44,7 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
 
         Log.d(TAG, "onCreate: started.");
-        super.setupFireBase();
+        initFireBase();
         setUpComponents();
 
     }
@@ -116,41 +119,28 @@ public class LoginActivity extends BaseActivity {
 
     //**************************** FIREBASE ***********************
 
+
+    private void initFireBase() {
+        Log.d(TAG, "initFireBase: init FireBaseHelper");
+        mFireBaseHelper = new FireBaseHelper();
+    }
+
     private void signinViaFirebase() {
         Log.d(TAG, "signinViaFirebase: Firebase authentication started.");
-        final FirebaseAuth auth = super.getFireBaseAuth();
-        auth.signInWithEmailAndPassword(mEmail, mPassword)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = auth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(mContext, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            updateUI(null);
-                        }
+        mFireBaseHelper.signIn(mEmail, mPassword, mContext, new iFireBaseListener() {
+            @Override
+            public void onCompletion(FirebaseUser currentUser) {
+                mProgressView.setVisibility(View.GONE);
+                showHomeScreen();
+            }
 
-                        // ...
-                    }
-                });
+            @Override
+            public void onFailure() {
+                mProgressView.setVisibility(View.GONE);
+            }
+        });
     }
 
-
-    private void updateUI(FirebaseUser currentUser){
-        mProgressView.setVisibility(View.GONE);
-
-        if (currentUser == null) {
-             return;
-        }
-
-        showHomeScreen(); //finish activity and show home screen
-    }
 
     //*******************************************************************
 

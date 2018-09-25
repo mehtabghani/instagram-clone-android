@@ -19,6 +19,8 @@ import com.maddy.instagramclone.fragment.CameraFragment;
 import com.maddy.instagramclone.fragment.HomeFragment;
 import com.maddy.instagramclone.fragment.MessageFragment;
 import com.maddy.instagramclone.helper.BottomNavigationViewHelper;
+import com.maddy.instagramclone.helper.FireBaseHelper;
+import com.maddy.instagramclone.helper.iFireBaseListener;
 import com.maddy.instagramclone.util.UniversalImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -26,6 +28,7 @@ public class HomeActivity extends BaseActivity {
 
     private static final String TAG = "HomeActivity";
     private Context mContext = HomeActivity.this;
+    private FireBaseHelper mFireBaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +36,7 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
         Log.d(TAG, "onCreate: starting");
 
-        super.setupFireBase();
-
+        initFireBase();
         initImageLoader();
         setupViewPager();
         setupBottomNavigationView();
@@ -47,38 +49,43 @@ public class HomeActivity extends BaseActivity {
         checkIfUserLoggedIn();
     }
 
+
     //**************************** FIREBASE ***********************
 
-
-    private void checkIfUserLoggedIn() {
-        FirebaseAuth auth = super.getFireBaseAuth();
-        Log.d(TAG, "checkIfUserLoggedIn: checking if user logged in.");
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = auth.getCurrentUser();
-        updateUI(currentUser);
+    private void initFireBase() {
+        Log.d(TAG, "initFireBase: init FireBaseHelper");
+        mFireBaseHelper = new FireBaseHelper();
     }
 
-    private void updateUI(FirebaseUser currentUser){
-        if (currentUser == null) {
-            Log.d(TAG, "updateUI: firebase, user is not logged in");
-            showLoginScreen();
+    private void checkIfUserLoggedIn() {
+
+        if (mFireBaseHelper.checkIfUserLoggedIn()) {
+            Log.d(TAG, "checkIfUserLoggedIn: firebase, user is already logged in");
+            mFireBaseHelper.signOutFireBaseAuth(new iFireBaseListener() {
+                @Override
+                public void onCompletion(FirebaseUser currentUser) {
+                    signOut();
+                }
+
+                @Override
+                public void onFailure() {
+
+                }
+            });
             return;
         }
 
-        Log.d(TAG, "updateUI: firebase, user is already logged in");
-        super.signOutFireBaseAuth();
-
-    }
-
-    @Override
-    protected void onSignOut() {
-        Log.d(TAG, "onSignOut: user logged out");
+        Log.d(TAG, "checkIfUserLoggedIn: firebase, user is not logged in");
         showLoginScreen();
+
     }
 
     //*******************************************************************
 
-
+    protected void signOut() {
+        Log.d(TAG, "onSignOut: user logged out");
+        showLoginScreen();
+    }
     private void showLoginScreen() {
         Log.d(TAG, "showLoginScreen: show login screen");
         Intent intent = new Intent(mContext,LoginActivity.class);
