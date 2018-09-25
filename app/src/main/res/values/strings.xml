@@ -3,4 +3,8 @@
     <string name="edit_profile_fragment">Edit profile</string>
     <string name="sign_out_fragment">Sign out</string>
 
+
+    <string name="msg_validation_error">All fields must be filled out.</string>
+
+
 </resources>

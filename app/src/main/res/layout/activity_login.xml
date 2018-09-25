@@ -74,10 +74,11 @@
     </android.support.v7.widget.LinearLayoutCompat>
 
     <RelativeLayout
-        android:id="@+id/relLayout_login_progress"
+        android:id="@+id/relLayout_progress_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone">
+        android:layout_centerInParent="true"
+        android:visibility="visible">
 
         <ProgressBar
             android:id="@+id/progress_bar"
