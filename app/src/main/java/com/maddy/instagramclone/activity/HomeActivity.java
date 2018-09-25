@@ -54,7 +54,7 @@ public class HomeActivity extends BaseActivity {
 
     private void initFireBase() {
         Log.d(TAG, "initFireBase: init FireBaseHelper");
-        mFireBaseHelper = new FireBaseHelper();
+        mFireBaseHelper = new FireBaseHelper(mContext);
     }
 
     private void checkIfUserLoggedIn() {

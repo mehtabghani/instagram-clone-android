@@ -19,9 +19,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.maddy.instagramclone.R;
 import com.maddy.instagramclone.helper.FireBaseHelper;
 import com.maddy.instagramclone.helper.iFireBaseListener;
+import com.maddy.instagramclone.model.User;
+import com.maddy.instagramclone.util.StringManipulation;
 
 public class RegisterActivity extends BaseActivity {
 
@@ -36,6 +42,7 @@ public class RegisterActivity extends BaseActivity {
     private Button mBtnRegister;
 
     private String mEmail, mFullName, mPassword;
+    private String append = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,20 +104,51 @@ public class RegisterActivity extends BaseActivity {
         finish();
     }
 
+    private void OnSucessOfUserRegistartion() {
+
+       final DatabaseReference reference = mFireBaseHelper.getDBReference();
+
+       reference.addListenerForSingleValueEvent(new ValueEventListener() {
+           @Override
+           public void onDataChange(DataSnapshot dataSnapshot) {
+
+               //1st CHECK: Make sure user name is not already in use
+              if(mFireBaseHelper.checkIfUserNameExists(mFullName, dataSnapshot)){
+                    append = reference.push().getKey().substring(3, 7);//generating random key from firebase
+              }
+              mFullName = mFullName + append;
+
+              //add new user to database
+               mFireBaseHelper.addNewUser(mEmail, mFullName,"", "", "");
+
+               Toast.makeText(mContext, "Signup succesfull. Verification email has been sent.",
+                       Toast.LENGTH_SHORT).show();
+           }
+
+           @Override
+           public void onCancelled(DatabaseError databaseError) {
+
+           }
+       });
+
+      //  showHomeScreen();
+    }
+
+
     //**************************** FIREBASE ***********************
 
     private void initFireBase() {
         Log.d(TAG, "initFireBase: init FireBaseHelper");
-        mFireBaseHelper = new FireBaseHelper();
+        mFireBaseHelper = new FireBaseHelper(mContext);
     }
 
     private void registerNewUser() {
 
-        mFireBaseHelper.registerNewUser(mEmail, mPassword, mContext, new iFireBaseListener() {
+        mFireBaseHelper.registerNewUser(mEmail, mPassword, new iFireBaseListener() {
             @Override
             public void onCompletion(FirebaseUser currentUser) {
                 mProgressView.setVisibility(View.GONE);
-                showHomeScreen(); //finish activity and show home screen
+                OnSucessOfUserRegistartion();
             }
 
             @Override

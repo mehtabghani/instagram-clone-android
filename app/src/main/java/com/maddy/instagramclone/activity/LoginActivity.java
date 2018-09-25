@@ -122,12 +122,12 @@ public class LoginActivity extends BaseActivity {
 
     private void initFireBase() {
         Log.d(TAG, "initFireBase: init FireBaseHelper");
-        mFireBaseHelper = new FireBaseHelper();
+        mFireBaseHelper = new FireBaseHelper(mContext);
     }
 
     private void signinViaFirebase() {
         Log.d(TAG, "signinViaFirebase: Firebase authentication started.");
-        mFireBaseHelper.signIn(mEmail, mPassword, mContext, new iFireBaseListener() {
+        mFireBaseHelper.signIn(mEmail, mPassword, new iFireBaseListener() {
             @Override
             public void onCompletion(FirebaseUser currentUser) {
                 mProgressView.setVisibility(View.GONE);

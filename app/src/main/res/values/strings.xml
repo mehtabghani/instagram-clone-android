@@ -1,10 +1,16 @@
 <resources>
     <string name="app_name">InstagramClone</string>
+
+    <!-- Fragmetns -->
     <string name="edit_profile_fragment">Edit profile</string>
     <string name="sign_out_fragment">Sign out</string>
 
+    <!-- Msgs -->
 
     <string name="msg_validation_error">All fields must be filled out.</string>
 
+    <!-- Firebase DB Field -->
+    <string name="dbname_user">user</string>
+    <string name="dbname_user_account_info">user_account_info</string>
 
 </resources>
