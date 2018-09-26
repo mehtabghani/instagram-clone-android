@@ -10,7 +10,7 @@ import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.maddy.instagramclone.R;
 import com.maddy.instagramclone.helper.BottomNavigationViewHelper;
 
-public class LikesActivity extends AppCompatActivity {
+public class LikesActivity extends BaseActivity {
 
     private static final String TAG = "LikesActivity";
 
@@ -18,18 +18,18 @@ public class LikesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_likes);
-        setupBottomNavigationView();
+        super.setupBottomNavigationView();
     }
 
-    private void setupBottomNavigationView() {
-        Log.d(TAG, "setupBottomNavigationView: setting up bottom navigation view");
-
-        BottomNavigationViewEx bottomNavigationView = (BottomNavigationViewEx) findViewById(R.id.bottom_nav_view_bar);
-        BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationView);
-        BottomNavigationViewHelper.enableNavigation(LikesActivity.this, bottomNavigationView);
-        Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuItem = menu.getItem(BottomNavigationViewHelper.getSelectedMenuIndex());
-        menuItem.setChecked(true);
-
-    }
+//    private void setupBottomNavigationView() {
+//        Log.d(TAG, "setupBottomNavigationView: setting up bottom navigation view");
+//
+//        BottomNavigationViewEx bottomNavigationView = (BottomNavigationViewEx) findViewById(R.id.bottom_nav_view_bar);
+//        BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationView);
+//        BottomNavigationViewHelper.enableNavigation(LikesActivity.this, bottomNavigationView);
+//        Menu menu = bottomNavigationView.getMenu();
+//        MenuItem menuItem = menu.getItem(BottomNavigationViewHelper.getSelectedMenuIndex());
+//        menuItem.setChecked(true);
+//
+//    }
 }

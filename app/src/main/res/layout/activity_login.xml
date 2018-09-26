@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
                 android:hint="Email "
-                android:text="abc@xyz.com"/>
+                android:text="test2@test.com"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -75,37 +75,6 @@
 
     </android.support.v7.widget.LinearLayoutCompat>
 
-    <RelativeLayout
-        android:id="@+id/relLayout_progress_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:visibility="visible">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/loader_bg_grey"
-            android:alpha="0.4">
-        </RelativeLayout>
-
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerInParent="true"
-            />
-        <TextView
-            android:id="@+id/tv_loader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Please wait..."
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:layout_below="@+id/progress_bar"
-            android:layout_marginTop="10dp"
-            android:layout_centerHorizontal="true"/>
-    </RelativeLayout>
-
+    <include layout="@layout/snippet_loader"/>
 
 </RelativeLayout>

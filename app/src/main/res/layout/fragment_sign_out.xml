@@ -4,12 +4,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sign Out Fragment"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:textSize="20dp"/>
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:id="@+id/tvConfirmation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Are you sure you want to Sign out?"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:textSize="29sp"
+            android:textAlignment="center"
+            />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/button_signout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="Sign Out "
+            android:padding="12dp"
+            android:background="@drawable/white_rounded_button"
+            android:layout_below="@+id/tvConfirmation"
+            />
+
+    </RelativeLayout>
+
+    <include layout="@layout/snippet_loader"/>
 
 </RelativeLayout>

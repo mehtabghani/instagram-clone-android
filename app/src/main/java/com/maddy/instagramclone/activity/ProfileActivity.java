@@ -24,7 +24,7 @@ import com.maddy.instagramclone.util.UniversalImageLoader;
 
 import java.util.ArrayList;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends BaseActivity {
 
     private static final String TAG = "ProfileActivity";
     private Context mContext = ProfileActivity.this;
@@ -39,7 +39,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         //setup
         setupToolbar();
-        setupBottomNavigationView();
+        super.setupBottomNavigationView();
         setupActivityWidget();
         setProfilePhoto();
         tempGridSetup();
@@ -61,17 +61,17 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
 
-    private void setupBottomNavigationView() {
-        Log.d(TAG, "setupBottomNavigationView: setting up bottom navigation view");
-
-        BottomNavigationViewEx bottomNavigationView = (BottomNavigationViewEx) findViewById(R.id.bottom_nav_view_bar);
-        BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationView);
-        BottomNavigationViewHelper.enableNavigation(ProfileActivity.this, bottomNavigationView);
-        Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuItem = menu.getItem(BottomNavigationViewHelper.getSelectedMenuIndex());
-        menuItem.setChecked(true);
-
-    }
+//    private void setupBottomNavigationView() {
+//        Log.d(TAG, "setupBottomNavigationView: setting up bottom navigation view");
+//
+//        BottomNavigationViewEx bottomNavigationView = (BottomNavigationViewEx) findViewById(R.id.bottom_nav_view_bar);
+//        BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationView);
+//        BottomNavigationViewHelper.enableNavigation(ProfileActivity.this, bottomNavigationView);
+//        Menu menu = bottomNavigationView.getMenu();
+//        MenuItem menuItem = menu.getItem(BottomNavigationViewHelper.getSelectedMenuIndex());
+//        menuItem.setChecked(true);
+//
+//    }
 
     private void setupActivityWidget() {
         ProgressBar  progressBar = (ProgressBar) findViewById(R.id.profile_progress_bar);

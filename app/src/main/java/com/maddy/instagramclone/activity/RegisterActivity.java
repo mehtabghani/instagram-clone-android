@@ -124,8 +124,7 @@ public class RegisterActivity extends BaseActivity {
                //add new user to database
                mFireBaseHelper.addNewUser(mEmail, mFullName,"", "", "");
 
-               Toast.makeText(mContext, "Signup succesfull. Verification email has been sent.",
-                       Toast.LENGTH_SHORT).show();
+               showHomeScreen();
            }
 
            @Override
@@ -134,7 +133,6 @@ public class RegisterActivity extends BaseActivity {
            }
        });
 
-      //  showHomeScreen();
     }
 
 

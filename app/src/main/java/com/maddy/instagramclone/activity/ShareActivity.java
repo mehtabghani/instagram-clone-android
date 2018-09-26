@@ -10,7 +10,7 @@ import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.maddy.instagramclone.R;
 import com.maddy.instagramclone.helper.BottomNavigationViewHelper;
 
-public class ShareActivity extends AppCompatActivity {
+public class ShareActivity extends BaseActivity {
 
     private static final String TAG = "ShareActivity";
 
@@ -18,18 +18,8 @@ public class ShareActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share);
-        setupBottomNavigationView();
+        super.setupBottomNavigationView();
     }
 
-    private void setupBottomNavigationView() {
-        Log.d(TAG, "setupBottomNavigationView: setting up bottom navigation view");
 
-        BottomNavigationViewEx bottomNavigationView = (BottomNavigationViewEx) findViewById(R.id.bottom_nav_view_bar);
-        BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationView);
-        BottomNavigationViewHelper.enableNavigation(ShareActivity.this, bottomNavigationView);
-        Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuItem = menu.getItem(BottomNavigationViewHelper.getSelectedMenuIndex());
-        menuItem.setChecked(true);
-
-    }
 }

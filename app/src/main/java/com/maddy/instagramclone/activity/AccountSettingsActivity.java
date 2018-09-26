@@ -20,7 +20,7 @@ import com.maddy.instagramclone.fragment.SignOutFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccountSettingsActivity extends AppCompatActivity {
+public class AccountSettingsActivity extends BaseActivity {
 
     private static final String TAG = "AccountSettingsActivity";
     private Context mContext = AccountSettingsActivity.this;
@@ -41,6 +41,7 @@ public class AccountSettingsActivity extends AppCompatActivity {
         setupFragment();
         setupBackButton();
         setUpSettingsList();
+        super.setupBottomNavigationView();
     }
 
     private void setupFragment() {

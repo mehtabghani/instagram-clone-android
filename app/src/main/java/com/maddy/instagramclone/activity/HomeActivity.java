@@ -39,7 +39,7 @@ public class HomeActivity extends BaseActivity {
         initFireBase();
         initImageLoader();
         setupViewPager();
-        setupBottomNavigationView();
+        super.setupBottomNavigationView();
     }
 
     @Override
@@ -61,17 +61,6 @@ public class HomeActivity extends BaseActivity {
 
         if (mFireBaseHelper.checkIfUserLoggedIn()) {
             Log.d(TAG, "checkIfUserLoggedIn: firebase, user is already logged in");
-            mFireBaseHelper.signOutFireBaseAuth(new iFireBaseListener() {
-                @Override
-                public void onCompletion(FirebaseUser currentUser) {
-                    signOut();
-                }
-
-                @Override
-                public void onFailure() {
-
-                }
-            });
             return;
         }
 
@@ -122,14 +111,14 @@ public class HomeActivity extends BaseActivity {
     }
 
 
-    private void setupBottomNavigationView() {
-        Log.d(TAG, "setupBottomNavigationView: setting up bottom navigation view");
-
-        BottomNavigationViewEx bottomNavigationView = (BottomNavigationViewEx) findViewById(R.id.bottom_nav_view_bar);
-        BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationView);
-        BottomNavigationViewHelper.enableNavigation(HomeActivity.this, bottomNavigationView);
-        Menu menu = bottomNavigationView.getMenu();
-        MenuItem menuItem = menu.getItem(BottomNavigationViewHelper.getSelectedMenuIndex());
-        menuItem.setChecked(true);
-    }
+//    private void setupBottomNavigationView() {
+//        Log.d(TAG, "setupBottomNavigationView: setting up bottom navigation view");
+//
+//        BottomNavigationViewEx bottomNavigationView = (BottomNavigationViewEx) findViewById(R.id.bottom_nav_view_bar);
+//        BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationView);
+//        BottomNavigationViewHelper.enableNavigation(HomeActivity.this, bottomNavigationView);
+//        Menu menu = bottomNavigationView.getMenu();
+//        MenuItem menuItem = menu.getItem(BottomNavigationViewHelper.getSelectedMenuIndex());
+//        menuItem.setChecked(true);
+//    }
 }
