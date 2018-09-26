@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "36041786226-idv1eu8o9bhtg4qk403jt41joru4m0eb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.maddy.instagramclone",
+            "certificate_hash": "08eeae84c13d1006f460555023ebc43f1c6ab455"
+          }
+        },
+        {
           "client_id": "36041786226-r6vbktgp9is1aukns618f6cf802umtrt.apps.googleusercontent.com",
           "client_type": 3
         }
