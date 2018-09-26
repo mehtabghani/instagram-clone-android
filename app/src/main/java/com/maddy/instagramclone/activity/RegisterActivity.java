@@ -106,7 +106,8 @@ public class RegisterActivity extends BaseActivity {
 
     private void OnSucessOfUserRegistartion() {
 
-       final DatabaseReference reference = mFireBaseHelper.getDBReference();
+        Log.d(TAG, "OnSucessOfUserRegistartion: User registered successfully. now setting up other user info.");
+       final DatabaseReference reference = mFireBaseHelper.getDatabase().getReference("user");
 
        reference.addListenerForSingleValueEvent(new ValueEventListener() {
            @Override
@@ -118,7 +119,9 @@ public class RegisterActivity extends BaseActivity {
               }
               mFullName = mFullName + append;
 
-              //add new user to database
+               Log.d(TAG, "OnSucessOfUserRegistartion -> onDataChange: New UserName will be: \"" + mFullName+ "\"");
+
+               //add new user to database
                mFireBaseHelper.addNewUser(mEmail, mFullName,"", "", "");
 
                Toast.makeText(mContext, "Signup succesfull. Verification email has been sent.",
@@ -127,7 +130,7 @@ public class RegisterActivity extends BaseActivity {
 
            @Override
            public void onCancelled(DatabaseError databaseError) {
-
+               Log.d(TAG, "onCancelled: Failed to add user info.");
            }
        });
 

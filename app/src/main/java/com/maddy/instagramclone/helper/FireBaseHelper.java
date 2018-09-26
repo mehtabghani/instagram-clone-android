@@ -7,6 +7,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,6 +51,10 @@ public class FireBaseHelper {
 
     public DatabaseReference getDBReference() {
         return mDBReference;
+    }
+
+    public FirebaseDatabase getDatabase() {
+        return mDatabase;
     }
 
     /**
@@ -152,7 +158,7 @@ public class FireBaseHelper {
 
 
     public boolean checkIfUserNameExists(String userName, DataSnapshot dataSnapshot) {
-        Log.d(TAG, "checkIfUserNameExists: checking if " + userName + " already exists.");
+        Log.d(TAG, "checkIfUserNameExists: checking if \"" + userName + "\" already exists.");
 
         User user = new User();
 
@@ -173,17 +179,42 @@ public class FireBaseHelper {
     }
 
 
-    public void addNewUser(String email, String username, String desc, String website, String profilePhotoUrl) {
+    public void addNewUser(final String email, final String username, final String desc, final String website, final String profilePhotoUrl) {
+        Log.d(TAG, "addNewUser: creating user data.");
 
         User user= new User(mUserID, email, 1, StringManipulation.condenseUsername(username));
         mDBReference.child(mContext.getString(R.string.dbname_user))
                 .child(mUserID)
-                .setValue(user);
+                .setValue(user)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        addUserAccountInfo(username, desc, website, profilePhotoUrl);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "onFailure: Failed to add user data.");
+                    }
+                });
+
+    }
+
+    private void addUserAccountInfo(final String username, final String desc, final String website, final String profilePhotoUrl) {
+        Log.d(TAG, "addUserAccountInfo: creating user account info.");
 
         UserAccountInfo userInfo = new UserAccountInfo(username, username, desc, profilePhotoUrl, website, 0,0, 0);
         mDBReference.child(mContext.getString(R.string.dbname_user_account_info))
                 .child(mUserID)
-                .setValue(userInfo);
+                .setValue(userInfo)
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "onFailure: Failed to add user account info data.");
+                    }
+                });
     }
+
 
 }
