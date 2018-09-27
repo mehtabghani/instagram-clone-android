@@ -1,30 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".activity.ProfileActivity">
-
-<RelativeLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".activity.ProfileActivity">
 
-    <!-- Top bar -->
-    <!--<include layout="@layout/snippet_top_profilebar"/>-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <!-- Middle section -->
-    <include layout="@layout/layout_center_profile"/>
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-    <!-- Bottom bar  -->
-    <include layout="@layout/layout_bottom_navigation_view"/>
+        </FrameLayout>
 
-    <ProgressBar
-        android:id="@+id/profile_progress_bar"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_centerInParent="true"/>
+        <!-- Bottom bar  -->
+        <include layout="@layout/layout_bottom_navigation_view" />
 
-</RelativeLayout>
+    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

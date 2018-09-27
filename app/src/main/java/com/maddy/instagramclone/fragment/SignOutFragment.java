@@ -44,6 +44,7 @@ public class SignOutFragment extends Fragment {
     }
 
     private void setup() {
+        Log.d(TAG, "setup: setting up widgets.");
         mFireBaseHelper = new FireBaseHelper(getActivity());
         mProgressView = (RelativeLayout) getView().findViewById(R.id.relLayout_progress_view);
         mProgressView.setVisibility(View.GONE);

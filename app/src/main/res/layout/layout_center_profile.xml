@@ -6,31 +6,18 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/white">
 
-        <!-- Top Toolbar -->
-
-        <RelativeLayout
-            android:id="@+id/profile_rel_layout1"
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
-
-            <include layout="@layout/snippet_top_profilebar"/>
-
-        </RelativeLayout>
-
-        <!-- Middle section -->
         <RelativeLayout
             android:id="@+id/profile_rel_layout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/profile_rel_layout1"
+            android:layout_alignParentStart="true"
             android:background="@drawable/white_grey_border_bottom">
 
+            <!-- Top section -->
             <android.support.v7.widget.LinearLayoutCompat
                 android:id="@+id/profile_linear_layout1"
                 android:layout_width="match_parent"
@@ -41,17 +28,16 @@
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginStart="25dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_weight="25">
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/profile_photo"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
+                        android:layout_centerVertical="true"
                         app:civ_border_color="@color/black"
-                        app:civ_border_width="2dp"
-                        android:layout_centerVertical="true"/>
+                        app:civ_border_width="2dp" />
 
                 </RelativeLayout>
 
@@ -59,8 +45,8 @@
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="75"
-                    android:layout_marginRight="10dp">
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="75">
 
                     <include layout="@layout/snippet_top_profile" />
                 </RelativeLayout>
@@ -68,45 +54,48 @@
 
             </android.support.v7.widget.LinearLayoutCompat>
 
+            <!-- Detail section -->
             <android.support.v7.widget.LinearLayoutCompat
                 android:id="@+id/profile_linear_layout2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_below="@+id/profile_linear_layout1"
+                android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp">
+                android:orientation="vertical">
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/profile_tv_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
                     android:paddingLeft="20dp"
-                    android:text="Mehtab Ghani"/>
+                    android:text="Mehtab Ghani"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/profile_tv_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:paddingLeft="20dp"
                     android:layout_marginTop="5dp"
-                    android:text="Love to travel"/>
+                    android:paddingLeft="20dp"
+                    android:text="Love to travel"
+                    android:textSize="16sp" />
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/profile_tv_link"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:paddingLeft="20dp"
                     android:layout_marginTop="5dp"
+                    android:paddingLeft="20dp"
                     android:text="https:www.maddy.com"
-                    android:textColor="@color/link_blue"/>
+                    android:textColor="@color/link_blue"
+                    android:textSize="16sp" />
 
             </android.support.v7.widget.LinearLayoutCompat>
 
+
+            <!-- Grid view -->
 
             <RelativeLayout
                 android:id="@+id/profile_rel_grid"
@@ -120,18 +109,16 @@
                     android:id="@+id/profile_grid_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:numColumns="3"
-                    android:verticalSpacing="1dp"
+                    android:gravity="center"
                     android:horizontalSpacing="1dp"
+                    android:numColumns="3"
                     android:stretchMode="columnWidth"
-                    android:gravity="center">
+                    android:verticalSpacing="1dp">
 
                 </GridView>
             </RelativeLayout>
 
         </RelativeLayout>
-
-
 
 
     </RelativeLayout>

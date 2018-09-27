@@ -7,9 +7,9 @@ public class User implements Parcelable {
 
 
     //Properties name should match with FireBase properties.
-    private String user_id;
     private String email;
     private long phone_number;
+    private String user_id;
     private String user_name;
 
 

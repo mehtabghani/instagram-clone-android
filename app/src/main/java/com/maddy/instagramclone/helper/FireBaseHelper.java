@@ -19,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.maddy.instagramclone.R;
 import com.maddy.instagramclone.model.User;
 import com.maddy.instagramclone.model.UserAccountInfo;
+import com.maddy.instagramclone.model.UserSettings;
 import com.maddy.instagramclone.util.StringManipulation;
 
 public class FireBaseHelper {
@@ -179,17 +180,30 @@ public class FireBaseHelper {
     }
 
 
+    /**
+     * Create new User
+     * @param email
+     * @param username
+     * @param desc
+     * @param website
+     * @param profilePhotoUrl
+     */
     public void addNewUser(final String email, final String username, final String desc, final String website, final String profilePhotoUrl) {
         Log.d(TAG, "addNewUser: creating user data.");
 
-        User user= new User(mUserID, email, 1, StringManipulation.condenseUsername(username));
+        final User user= new User(mUserID, email, 1, StringManipulation.condenseUsername(username));
+
+        if(user == null) {
+            Log.d(TAG, "addNewUser: user object is null.");
+        }
+
         mDBReference.child(mContext.getString(R.string.dbname_user))
                 .child(mUserID)
                 .setValue(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        addUserAccountInfo(username, desc, website, profilePhotoUrl);
+                        addUserAccountInfo(user.getUser_name(), desc, website, profilePhotoUrl);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -201,6 +215,13 @@ public class FireBaseHelper {
 
     }
 
+    /**
+     * Create new user account info in DB
+     * @param username
+     * @param desc
+     * @param website
+     * @param profilePhotoUrl
+     */
     private void addUserAccountInfo(final String username, final String desc, final String website, final String profilePhotoUrl) {
         Log.d(TAG, "addUserAccountInfo: creating user account info.");
 
@@ -216,5 +237,55 @@ public class FireBaseHelper {
                 });
     }
 
+
+    /**
+     * Retrieving user account info from DB.
+     * Collection name: user_account_info
+     * @param dataSnapshot
+     * @return
+     */
+    public UserSettings getUserSettings(DataSnapshot dataSnapshot) {
+        Log.d(TAG, "getUserSettings: getting user account info from firebase.");
+
+        User user = new User();
+        UserAccountInfo accountInfo = new UserAccountInfo();
+
+        final String dbNameUser = mContext.getString(R.string.dbname_user);
+        final String dbNameUserAccount = mContext.getString(R.string.dbname_user_account_info);
+
+        mUserID = mAuth.getCurrentUser().getUid();
+
+        for(DataSnapshot ds : dataSnapshot.getChildren()) {
+            DataSnapshot child = ds.child(mUserID);
+            try {
+
+                if(ds.getKey().equals(dbNameUserAccount)) {
+                    Log.d(TAG, "getUserSettings -> user_account_info: datasnapshot: " + ds);
+
+                    accountInfo.setDisplay_name(child.getValue(UserAccountInfo.class).getDisplay_name());
+                    accountInfo.setUser_name(child.getValue(UserAccountInfo.class).getUser_name());
+                    accountInfo.setDescription(child.getValue(UserAccountInfo.class).getDescription());
+                    accountInfo.setFollowers(child.getValue(UserAccountInfo.class).getFollowers());
+                    accountInfo.setFollowing(child.getValue(UserAccountInfo.class).getFollowing());
+                    accountInfo.setPosts(child.getValue(UserAccountInfo.class).getPosts());
+                    accountInfo.setWebsite(child.getValue(UserAccountInfo.class).getWebsite());
+                    accountInfo.setProfile_photo(child.getValue(UserAccountInfo.class).getProfile_photo());
+                }
+                else if(ds.getKey().equals(dbNameUser)) {
+                    Log.d(TAG, "getUserSettings -> user: datasnapshot: " + ds);
+
+                    user.setUser_id(child.getValue(User.class).getUser_id());
+                    user.setEmail(child.getValue(User.class).getEmail());
+                    user.setUser_name(child.getValue(User.class).getUser_name());
+                    user.setPhone_number(child.getValue(User.class).getPhone_number());
+                }
+            }
+            catch (NullPointerException ex) {
+                Log.e(TAG, "getUserSettings: NullPointerException Occurred: " + ex.getMessage());
+            }
+        }
+
+        return new UserSettings(user, accountInfo);
+    }
 
 }

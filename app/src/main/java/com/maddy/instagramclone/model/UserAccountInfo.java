@@ -12,6 +12,10 @@ public class UserAccountInfo {
     private long following;
     private long posts;
 
+    public UserAccountInfo() {
+
+    }
+
     public UserAccountInfo(String user_name, String display_name, String description, String profile_photo, String website, long followers, long following, long posts) {
         this.user_name = user_name;
         this.display_name = display_name;

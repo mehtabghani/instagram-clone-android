@@ -4,6 +4,8 @@
     <!-- Fragmetns -->
     <string name="edit_profile_fragment">Edit profile</string>
     <string name="sign_out_fragment">Sign out</string>
+    <string name="profile_fragment">Profile</string>
+
 
     <!-- Msgs -->
 
