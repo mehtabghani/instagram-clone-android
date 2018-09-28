@@ -258,7 +258,6 @@ public class FireBaseHelper {
         for(DataSnapshot ds : dataSnapshot.getChildren()) {
             DataSnapshot child = ds.child(mUserID);
             try {
-
                 if(ds.getKey().equals(dbNameUserAccount)) {
                     Log.d(TAG, "getUserSettings -> user_account_info: datasnapshot: " + ds);
 

@@ -1,6 +1,7 @@
 package com.maddy.instagramclone.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -42,6 +43,17 @@ public class AccountSettingsActivity extends BaseActivity {
         setupBackButton();
         setUpSettingsList();
         super.setupBottomNavigationView();
+
+        getInComingIntent();
+    }
+
+    private void getInComingIntent() {
+        Intent intent = getIntent();
+
+        if(intent.hasExtra(getString(R.string.calling_activity))){
+            Log.d(TAG, "getInComingIntent: recevied incoming intent from " + getString(R.string.profile_activity));
+            setViewPager(mStatePagerAdapter.getFragmentNumber(getString(R.string.edit_profile_fragment)));
+        }
     }
 
     private void setupFragment() {

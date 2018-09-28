@@ -1,5 +1,6 @@
 package com.maddy.instagramclone.fragment;
 
+import android.accounts.Account;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -80,6 +81,20 @@ public class ProfileFragment extends Fragment{
         mGridView       = (GridView) view.findViewById(R.id.profile_grid_view);
         mToolbar        = (Toolbar) view.findViewById(R.id.profile_toolbar);
         mProfileMenu    = (ImageView) view.findViewById(R.id.profile_menu_image);
+        setUpEditProfile(view);
+    }
+
+    private void setUpEditProfile(View view) {
+        TextView editProfile  = (TextView) view.findViewById(R.id.tvEditProfile);
+        editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "setUpEditProfile -> onClick: navigating to Edit profile fragment.");
+                Intent intent = new Intent(getActivity(), AccountSettingsActivity.class);
+                intent.putExtra(getString(R.string.calling_activity), getString(R.string.profile_activity));
+                startActivity(intent);
+            }
+        });
     }
 
     private void setupToolbar() {

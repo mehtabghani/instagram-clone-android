@@ -28,7 +28,7 @@
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="15dp"
                     android:layout_weight="25">
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -38,7 +38,6 @@
                         android:layout_centerVertical="true"
                         app:civ_border_color="@color/black"
                         app:civ_border_width="2dp" />
-
                 </RelativeLayout>
 
 
