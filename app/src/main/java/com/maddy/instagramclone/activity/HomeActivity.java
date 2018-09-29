@@ -4,23 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.maddy.instagramclone.R;
 import com.maddy.instagramclone.adapter.SectionPagerAdapter;
 import com.maddy.instagramclone.fragment.CameraFragment;
 import com.maddy.instagramclone.fragment.HomeFragment;
 import com.maddy.instagramclone.fragment.MessageFragment;
-import com.maddy.instagramclone.helper.BottomNavigationViewHelper;
 import com.maddy.instagramclone.helper.FireBaseHelper;
-import com.maddy.instagramclone.helper.iFireBaseListener;
 import com.maddy.instagramclone.util.UniversalImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoader;
 

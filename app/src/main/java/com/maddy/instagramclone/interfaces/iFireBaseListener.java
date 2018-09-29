@@ -1,4 +1,4 @@
-package com.maddy.instagramclone.helper;
+package com.maddy.instagramclone.interfaces;
 
 import com.google.firebase.auth.FirebaseUser;
 

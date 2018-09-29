@@ -17,6 +17,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.maddy.instagramclone.R;
+import com.maddy.instagramclone.interfaces.iFireBaseListener;
 import com.maddy.instagramclone.model.User;
 import com.maddy.instagramclone.model.UserAccountInfo;
 import com.maddy.instagramclone.model.UserSettings;
@@ -44,6 +45,10 @@ public class FireBaseHelper {
         mDatabase = FirebaseDatabase.getInstance();
         mDBReference = mDatabase.getReference();
         mContext = context;
+    }
+
+    public void setContext(Context context) {
+        this.mContext = context;
     }
 
     public FirebaseAuth getFireBaseAuth() {

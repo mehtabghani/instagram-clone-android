@@ -13,12 +13,10 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.internal.FirebaseAppHelper;
 import com.maddy.instagramclone.R;
-import com.maddy.instagramclone.activity.HomeActivity;
 import com.maddy.instagramclone.activity.LoginActivity;
 import com.maddy.instagramclone.helper.FireBaseHelper;
-import com.maddy.instagramclone.helper.iFireBaseListener;
+import com.maddy.instagramclone.interfaces.iFireBaseListener;
 
 public class SignOutFragment extends Fragment {
 

@@ -6,6 +6,9 @@
     <string name="sign_out_fragment">Sign out</string>
     <string name="profile_fragment">Profile</string>
 
+    <!-- Tittle-->
+    <string name="title_edit_profile">Edit Profile</string>
+
 
     <!-- Msgs -->
 

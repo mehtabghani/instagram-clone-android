@@ -25,6 +25,8 @@ import com.maddy.instagramclone.R;
 import com.maddy.instagramclone.activity.AccountSettingsActivity;
 import com.maddy.instagramclone.activity.ProfileActivity;
 import com.maddy.instagramclone.helper.FireBaseHelper;
+import com.maddy.instagramclone.interfaces.CompletionListener;
+import com.maddy.instagramclone.manager.PersistanceManager;
 import com.maddy.instagramclone.model.UserAccountInfo;
 import com.maddy.instagramclone.model.UserSettings;
 import com.maddy.instagramclone.util.UniversalImageLoader;
@@ -42,14 +44,9 @@ public class ProfileFragment extends Fragment{
     private GridView mGridView;
     private Toolbar mToolbar;
     private ImageView mProfileMenu;
+
     private Context mContext;
-
-    private UserSettings mSettings;
-
-
-    public void setSettings(UserSettings settings) {
-        this.mSettings = settings;
-    }
+    private PersistanceManager mPersistance;
 
 
     @Nullable
@@ -62,8 +59,8 @@ public class ProfileFragment extends Fragment{
         Log.d(TAG, "onCreateView: started");
 
         mProgressBar.setVisibility(View.VISIBLE);
-        initFireBase();
         setupToolbar();
+        initDataManager();
 
         return view;
     }
@@ -110,12 +107,29 @@ public class ProfileFragment extends Fragment{
         });
     }
 
-    private void updateUI() {
+    private void initDataManager() {
+        mPersistance = PersistanceManager.getInstance().init(getActivity());
+        mPersistance.getUserSettings(new CompletionListener() {
+            @Override
+            public void onSuccess(Object obj) {
+                if( obj != null && obj.getClass() == UserSettings.class) {
+                    updateUI((UserSettings)obj);
+                }
+            }
+
+            @Override
+            public void onFail(Error error) {
+                Log.e(TAG, "onFail: Failed to get user settings data: ", error);
+            }
+        });
+    }
+
+    private void updateUI(UserSettings settings) {
         Log.d(TAG, "updateUI: updating screen UI.");
-        if(mSettings == null)
+        if(settings == null)
             return;
 
-        UserAccountInfo accountInfo = mSettings.getAccountInfo();
+        UserAccountInfo accountInfo = settings.getAccountInfo();
 
         try {
             mTVTopProfileName.setText(accountInfo.getUser_name());
@@ -133,39 +147,7 @@ public class ProfileFragment extends Fragment{
         catch (NullPointerException ex) {
             Log.e(TAG, "updateUI: NullPointerException Occurred: " + ex.getMessage());
         }
-
         mProgressBar.setVisibility(View.GONE);
     }
 
-
-    //**************************** FIREBASE ***********************
-
-    private void initFireBase() {
-        Log.d(TAG, "initFireBase: init FireBaseHelper");
-        mFireBaseHelper = new FireBaseHelper(mContext);
-
-        DatabaseReference reference= mFireBaseHelper.getDBReference();
-
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // 1.retrieve user information from database
-                final UserSettings settings = mFireBaseHelper.getUserSettings(dataSnapshot);
-
-                setSettings(settings);
-                updateUI();
-
-                // 2. retrieve user images
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-    }
-
-
-    //*******************************************************************
 }
