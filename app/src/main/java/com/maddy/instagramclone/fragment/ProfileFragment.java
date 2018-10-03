@@ -140,7 +140,6 @@ public class ProfileFragment extends Fragment{
             mTVFollowings.setText(Long.toString(accountInfo.getFollowing()));
             mTVWebsite.setText(accountInfo.getWebsite());
 
-
             //setting profile photo
             UniversalImageLoader.setImage(accountInfo.getProfile_photo(), mProfilePhoto, null, "");
         }
@@ -149,5 +148,7 @@ public class ProfileFragment extends Fragment{
         }
         mProgressBar.setVisibility(View.GONE);
     }
+
+
 
 }

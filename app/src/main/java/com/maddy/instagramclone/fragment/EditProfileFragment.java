@@ -12,13 +12,21 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.maddy.instagramclone.helper.FireBaseHelper;
 import com.maddy.instagramclone.interfaces.CompletionListener;
 import com.maddy.instagramclone.R;
 import com.maddy.instagramclone.manager.PersistanceManager;
 import com.maddy.instagramclone.model.User;
 import com.maddy.instagramclone.model.UserAccountInfo;
 import com.maddy.instagramclone.model.UserSettings;
+import com.maddy.instagramclone.util.StringManipulation;
 import com.maddy.instagramclone.util.UniversalImageLoader;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -32,10 +40,11 @@ public class EditProfileFragment extends Fragment {
     private TextView mTVTopProfileName, mTVChangePhoto;
     private EditText mTVDisplayName, mTVUserName, mTVDescription, mTVWebsite, mTVEmail, mTVPhoneNumber;
     private CircleImageView mProfilePhoto;
-    private ImageView mBackButtonImage;
 
     private Context mContext;
     private PersistanceManager mPersistance;
+    private UserSettings mUserSettings;
+    private FireBaseHelper mFireBaseHelper;
 
     @Nullable
     @Override
@@ -47,7 +56,8 @@ public class EditProfileFragment extends Fragment {
 
 
         initWidgets(view);
-        setupBackButton();
+        setupBackButton(view);
+        setupSavekButton(view);
         initDataManager();
 
         return view;
@@ -67,9 +77,7 @@ public class EditProfileFragment extends Fragment {
     }
 
     private void initWidgets (View view) {
-
-        mBackButtonImage = (ImageView) view.findViewById(R.id.edit_profile_back_image);
-        mTVTopProfileName = (TextView) view.findViewById(R.id.profile_name);
+        mTVTopProfileName   = (TextView) view.findViewById(R.id.profile_name);
         mTVDisplayName  = (EditText) view.findViewById(R.id.display_name);
         mTVUserName     = (EditText) view.findViewById(R.id.username);
         mTVDescription  = (EditText) view.findViewById(R.id.description);
@@ -79,6 +87,8 @@ public class EditProfileFragment extends Fragment {
         mTVChangePhoto  = (TextView) view.findViewById(R.id.tv_change_profile_photo);
         mProfilePhoto   = (CircleImageView) view.findViewById(R.id.edit_profile_photo);
 
+
+        Log.d(TAG, "initWidgets: widgets have been initialised.");
     }
 
     private void initDataManager() {
@@ -100,6 +110,9 @@ public class EditProfileFragment extends Fragment {
 
     private void updateUI(UserSettings settings) {
         Log.d(TAG, "updateUI: updating screen UI.");
+
+        mUserSettings = settings;
+
         if(settings == null)
             return;
 
@@ -115,7 +128,6 @@ public class EditProfileFragment extends Fragment {
             mTVEmail.setText(user.getEmail());
             mTVPhoneNumber.setText(String.valueOf(user.getPhone_number()));
 
-
             //setting profile photo
             UniversalImageLoader.setImage(accountInfo.getProfile_photo(), mProfilePhoto, null, "");
         }
@@ -125,8 +137,27 @@ public class EditProfileFragment extends Fragment {
     }
 
 
-    private void setupBackButton() {
-        
+    private void setupSavekButton(View view) {
+        ImageView mSaveButtonImage = (ImageView) view.findViewById(R.id.edit_profile_save_image);
+
+        if(mSaveButtonImage == null) {
+            Log.d(TAG, "setupSavekButton: save button image view is null");
+            return;
+        }
+
+        mSaveButtonImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Log.d(TAG, "onClick: saving profile data and navigate back to Profile activity.");
+                saveProfileInfo();
+            }
+        });
+    }
+
+    private void setupBackButton(View view) {
+        ImageView mBackButtonImage = (ImageView) view.findViewById(R.id.edit_profile_back_image);
+
         if(mBackButtonImage == null) {
             Log.d(TAG, "setupBackButton: back button image view is null");
             return;
@@ -142,9 +173,72 @@ public class EditProfileFragment extends Fragment {
         });
     }
 
-    private void editPrfoileSettings() {
-       // mTVUserName.va
+
+    private void saveProfileInfo() {
+
+        Log.d(TAG, "saveProfileInfo: method called.");
+
+        final String userName       = mTVUserName.getText().toString();
+        final String displayName    = mTVDisplayName.getText().toString();
+        final String desc           = mTVDescription.getText().toString();
+        final String website        = mTVWebsite.getText().toString();
+        final String email          = mTVEmail.getText().toString();
+        final long phonenumber    = Long.parseLong(mTVPhoneNumber.getText().toString());
+
+        try {
+
+            User user = mUserSettings.getUser();
+            Log.d(TAG, "onDataChange: getting user object");
+            if (!user.getUser_name().equals(userName)) {
+                checkIfUserNameExists(userName);
+            }
+        }catch (Exception ex) {
+            Log.e(TAG, "saveProfileInfo: exception occurred", ex);
+        }
 
     }
+
+    private void checkIfUserNameExists(final String username) {
+
+        Log.d(TAG, "checkIfUserNameExists: checking if user name exists.");
+
+        mPersistance.checkIfUserNameExists(username, new CompletionListener() {
+            @Override
+            public void onSuccess(Object obj) {
+                if(obj.getClass().equals(Boolean.class)) {
+                    Boolean isExist = ((Boolean) obj).booleanValue();
+
+                    Log.d(TAG, "checkIfUserNameExists->onSuccess: user name exists: " + isExist.toString());
+
+                    if(!isExist) {
+                        updateUserName(username);
+                    }
+                }
+            }
+
+            @Override
+            public void onFail(Error error) {
+                Log.d(TAG, "checkIfUserNameExists->onFail: failed.");
+            }
+        });
+
+    }
+
+
+    private void updateUserName(final String username) {
+        Log.d(TAG, "updateUserName: updating user name");
+        mPersistance.updateUserName(username, new CompletionListener() {
+            @Override
+            public void onSuccess(Object o) {
+                Log.d(TAG, "onSuccess: username updated on firebase DB");
+            }
+
+            @Override
+            public void onFail(Error error) {
+
+            }
+        });
+    }
+
 
 }

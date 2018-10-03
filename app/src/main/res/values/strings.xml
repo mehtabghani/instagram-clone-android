@@ -17,6 +17,8 @@
     <!-- Firebase DB Field -->
     <string name="dbname_user">user</string>
     <string name="dbname_user_account_info">user_account_info</string>
+    <string name="field_user_name">user_name</string>
+
     <!-- -->
 
     <!-- Intent extras -->

@@ -178,6 +178,7 @@
                     android:layout_marginLeft="40dp"
                     android:background="@null"
                     android:inputType="textNoSuggestions"
+                    android:enabled="false"
                     android:hint="Email"/>
 
             </RelativeLayout>

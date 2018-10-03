@@ -32,9 +32,8 @@ public class FireBaseHelper {
     private FirebaseAuth mAuth;
     private FirebaseDatabase mDatabase;
     private DatabaseReference mDBReference;
-    private String mUserID;
+    String mUserID;
     private Context mContext;
-
 
 
     public FireBaseHelper(Context context) {
@@ -290,6 +289,14 @@ public class FireBaseHelper {
         }
 
         return new UserSettings(user, accountInfo);
+    }
+
+
+
+    // getter setter
+
+    public String getUserID() {
+        return mUserID;
     }
 
 }
