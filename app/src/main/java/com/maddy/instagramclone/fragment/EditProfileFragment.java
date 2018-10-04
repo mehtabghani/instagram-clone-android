@@ -44,7 +44,6 @@ public class EditProfileFragment extends Fragment {
     private Context mContext;
     private PersistanceManager mPersistance;
     private UserSettings mUserSettings;
-    private FireBaseHelper mFireBaseHelper;
 
     @Nullable
     @Override
@@ -128,8 +127,12 @@ public class EditProfileFragment extends Fragment {
             mTVEmail.setText(user.getEmail());
             mTVPhoneNumber.setText(String.valueOf(user.getPhone_number()));
 
+            String photoURL = accountInfo.getProfile_photo();
             //setting profile photo
-            UniversalImageLoader.setImage(accountInfo.getProfile_photo(), mProfilePhoto, null, "");
+            if(photoURL == null)
+                photoURL = "";
+
+            UniversalImageLoader.setImage(photoURL, mProfilePhoto, null, "");
         }
         catch (NullPointerException ex) {
             Log.e(TAG, "updateUI: NullPointerException Occurred: " + ex.getMessage());
@@ -149,7 +152,7 @@ public class EditProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                Log.d(TAG, "onClick: saving profile data and navigate back to Profile activity.");
+                Log.d(TAG, "onClick: saving profile data...");
                 saveProfileInfo();
             }
         });
@@ -178,19 +181,32 @@ public class EditProfileFragment extends Fragment {
 
         Log.d(TAG, "saveProfileInfo: method called.");
 
-        final String userName       = mTVUserName.getText().toString();
-        final String displayName    = mTVDisplayName.getText().toString();
-        final String desc           = mTVDescription.getText().toString();
-        final String website        = mTVWebsite.getText().toString();
-        final String email          = mTVEmail.getText().toString();
-        final long phonenumber    = Long.parseLong(mTVPhoneNumber.getText().toString());
+        UserAccountInfo userInfo = new UserAccountInfo();
+        User user = new User();
+
+        userInfo.setUser_name(mTVUserName.getText().toString());
+        userInfo.setDisplay_name(mTVDisplayName.getText().toString());
+        userInfo.setDescription(mTVDescription.getText().toString());
+        userInfo.setWebsite(mTVWebsite.getText().toString());
+        user.setEmail(mTVEmail.getText().toString());
+        user.setPhone_number(Long.parseLong(mTVPhoneNumber.getText().toString()));
+        user.setUser_name(mTVUserName.getText().toString());
+
+        //Fields that dont need to change
+        user.setUser_id(mUserSettings.getUser().getUser_id());
+        userInfo.setProfile_photo(mUserSettings.getAccountInfo().getProfile_photo());
+        userInfo.setPosts(mUserSettings.getAccountInfo().getPosts());
+        userInfo.setFollowing(mUserSettings.getAccountInfo().getFollowing());
+        userInfo.setFollowers(mUserSettings.getAccountInfo().getFollowers());
+
 
         try {
-
-            User user = mUserSettings.getUser();
+            User tUser = mUserSettings.getUser();
             Log.d(TAG, "onDataChange: getting user object");
-            if (!user.getUser_name().equals(userName)) {
-                checkIfUserNameExists(userName);
+            if (!tUser.getUser_name().equals(userInfo.getUser_name())) {
+                checkIfUserNameExists(new UserSettings(user, userInfo));
+            } else {
+                saveOtherUserInfo(new UserSettings(user, userInfo));
             }
         }catch (Exception ex) {
             Log.e(TAG, "saveProfileInfo: exception occurred", ex);
@@ -198,11 +214,11 @@ public class EditProfileFragment extends Fragment {
 
     }
 
-    private void checkIfUserNameExists(final String username) {
+    private void checkIfUserNameExists(final UserSettings settings) {
 
         Log.d(TAG, "checkIfUserNameExists: checking if user name exists.");
 
-        mPersistance.checkIfUserNameExists(username, new CompletionListener() {
+        mPersistance.checkIfUserNameExists(settings.getAccountInfo().getUser_name(), new CompletionListener() {
             @Override
             public void onSuccess(Object obj) {
                 if(obj.getClass().equals(Boolean.class)) {
@@ -211,8 +227,11 @@ public class EditProfileFragment extends Fragment {
                     Log.d(TAG, "checkIfUserNameExists->onSuccess: user name exists: " + isExist.toString());
 
                     if(!isExist) {
-                        updateUserName(username);
+                        updateUserName(settings.getAccountInfo().getUser_name());
+                        saveOtherUserInfo(settings);
                     }
+
+
                 }
             }
 
@@ -222,6 +241,21 @@ public class EditProfileFragment extends Fragment {
             }
         });
 
+    }
+
+    private void saveOtherUserInfo(final UserSettings settings) {
+        Log.d(TAG, "saveOtherUserInfo: going to save user profile.");
+        mPersistance.updateUserProfileInfo(settings, new CompletionListener() {
+            @Override
+            public void onSuccess(Object o) {
+                Log.d(TAG, "onSuccess: user profile updated.");
+            }
+
+            @Override
+            public void onFail(Error error) {
+                Log.e(TAG, "onFail: Failed to update user profile, Error:" + error.getMessage());
+            }
+        });
     }
 
 

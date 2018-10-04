@@ -17,6 +17,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.maddy.instagramclone.R;
+import com.maddy.instagramclone.interfaces.CompletionListener;
 import com.maddy.instagramclone.interfaces.iFireBaseListener;
 import com.maddy.instagramclone.model.User;
 import com.maddy.instagramclone.model.UserAccountInfo;
@@ -291,9 +292,50 @@ public class FireBaseHelper {
         return new UserSettings(user, accountInfo);
     }
 
+    public void updateUserProfileInfo(final UserSettings settings, final CompletionListener listener) {
+        Log.d(TAG, "updateUserProfileInfo: going to update user and user_account_info");
+
+        mDBReference.child(mContext.getString(R.string.dbname_user))
+                .child(mUserID)
+                .setValue(settings.getUser())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        mDBReference.child(mContext.getString(R.string.dbname_user_account_info))
+                                .child(mUserID)
+                                .setValue(settings.getAccountInfo())
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "onSuccess: user and user_account_info updated.");
+                                        if(listener != null)
+                                            listener.onSuccess(null);
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.d(TAG, "onFailure: Failed to update user_account_info");
+                                        if(listener != null)
+                                            listener.onFail(new Error(e.getMessage()));
+                                    }
+                                });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "onFailure: Failed to update user data.");
+
+                        if(listener != null)
+                            listener.onFail(new Error(e.getMessage()));
+                    }
+                });
+    }
 
 
-    // getter setter
+
+        // getter setter
 
     public String getUserID() {
         return mUserID;

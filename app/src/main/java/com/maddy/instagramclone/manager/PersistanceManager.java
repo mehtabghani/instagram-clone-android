@@ -155,6 +155,11 @@ public class PersistanceManager {
     }
 
 
+    public void updateUserProfileInfo(final UserSettings settings, CompletionListener listener) {
+        mFireBaseHelper.updateUserProfileInfo(settings, listener);
+    }
+
+
     //setters
 
     public UserSettings getmUserSettings() {

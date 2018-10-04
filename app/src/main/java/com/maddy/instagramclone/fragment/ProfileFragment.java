@@ -140,8 +140,12 @@ public class ProfileFragment extends Fragment{
             mTVFollowings.setText(Long.toString(accountInfo.getFollowing()));
             mTVWebsite.setText(accountInfo.getWebsite());
 
+            String photoURL = accountInfo.getProfile_photo();
             //setting profile photo
-            UniversalImageLoader.setImage(accountInfo.getProfile_photo(), mProfilePhoto, null, "");
+            if(photoURL == null)
+                photoURL = "";
+
+            UniversalImageLoader.setImage(photoURL, mProfilePhoto, null, "");
         }
         catch (NullPointerException ex) {
             Log.e(TAG, "updateUI: NullPointerException Occurred: " + ex.getMessage());
