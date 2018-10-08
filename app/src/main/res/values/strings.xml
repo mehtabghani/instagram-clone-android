@@ -26,9 +26,13 @@
 
     <!-- Activity -->
 
-    <string name="profile_activity">P rofile Activity</string>
+    <string name="profile_activity">Profile Activity</string>
 
 
+    <!-- Strings -->
+    <string name="gallery">Gallery</string>
+    <string name="photo">Photo</string>
+    <string name="open_camera">Open Camera</string>
 
 
 </resources>
