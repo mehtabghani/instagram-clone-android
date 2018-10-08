@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.maddy.instagramclone.R;
 import com.maddy.instagramclone.activity.AccountSettingsActivity;
 import com.maddy.instagramclone.activity.ProfileActivity;
+import com.maddy.instagramclone.adapter.GridImageAdapter;
 import com.maddy.instagramclone.helper.FireBaseHelper;
 import com.maddy.instagramclone.interfaces.CompletionListener;
 import com.maddy.instagramclone.manager.PersistanceManager;
@@ -31,10 +32,16 @@ import com.maddy.instagramclone.model.UserAccountInfo;
 import com.maddy.instagramclone.model.UserSettings;
 import com.maddy.instagramclone.util.UniversalImageLoader;
 
+import java.util.ArrayList;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileFragment extends Fragment{
     private static final String TAG = "ProfileFragment";
+
+
+    private static final int NUM_GRID_COLUMNS = 3;
+
 
     private FireBaseHelper mFireBaseHelper;
 
@@ -61,7 +68,7 @@ public class ProfileFragment extends Fragment{
         mProgressBar.setVisibility(View.VISIBLE);
         setupToolbar();
         initDataManager();
-
+        tempGridSetup(view);
         return view;
     }
 
@@ -154,5 +161,30 @@ public class ProfileFragment extends Fragment{
     }
 
 
+    private void tempGridSetup(View view) {
+        ArrayList<String> imgUrls = new ArrayList<>();
+
+        for (int i=0; i<20; i++)
+            imgUrls.add("cdn.animegame.me/uploads/update_gif/animegame.me14812575954185.jpg");
+
+        setupGridView(imgUrls, view);
+
+    }
+
+    private void setupGridView(ArrayList<String> imgURLs, View view) {
+        Log.d(TAG, "setupGridView: setting up grid view.");
+
+        GridView gridView = (GridView) view.findViewById(R.id.profile_grid_view);
+
+        int gridWidth = getResources().getDisplayMetrics().widthPixels; // getting screen width
+        int imageWidth = gridWidth/NUM_GRID_COLUMNS;
+
+        gridView.setColumnWidth(imageWidth);
+
+        GridImageAdapter adapter =
+                new GridImageAdapter(mContext, R.layout.layout_grid_image_view, "https://", imgURLs);
+        gridView.setAdapter(adapter);
+
+    }
 
 }
