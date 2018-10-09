@@ -33,6 +33,8 @@
     <string name="gallery">Gallery</string>
     <string name="photo">Photo</string>
     <string name="open_camera">Open Camera</string>
+    <string name="msg_error_permission_required">Please provide permissions to share photos.</string>
+    <string name="button_title_next">Next</string>
 
 
 </resources>

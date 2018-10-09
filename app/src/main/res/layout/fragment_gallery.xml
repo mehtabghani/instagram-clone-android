@@ -10,6 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="50dp">
 
+        <include layout="@layout/snippet_top_gallery_toolbar"/>
+
     </RelativeLayout>
 
 
@@ -46,6 +48,7 @@
             android:layout_weight="40">
 
             <GridView
+                android:id="@+id/gallery_grid_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:numColumns="5"
