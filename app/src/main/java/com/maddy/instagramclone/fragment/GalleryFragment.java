@@ -74,7 +74,7 @@ public class GalleryFragment extends Fragment {
 
     private void init() {
         //check for other folders in "/storage/emulated/0/pictures"
-        ArrayList<String> dir = FileSearch.getDirectoryPaths(FilePath.PICTURES)
+        ArrayList<String> dir = FileSearch.getDirectoryPaths(FilePath.PICTURES);
         if(dir != null) {
             mDirectories = dir;
         }

@@ -17,6 +17,7 @@ import com.maddy.instagramclone.R;
 import com.maddy.instagramclone.adapter.SectionStatePagerAdapter;
 import com.maddy.instagramclone.fragment.EditProfileFragment;
 import com.maddy.instagramclone.fragment.SignOutFragment;
+import com.maddy.instagramclone.override.LockableViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public class AccountSettingsActivity extends BaseActivity {
     private static final String TAG = "AccountSettingsActivity";
     private Context mContext = AccountSettingsActivity.this;
     private SectionStatePagerAdapter mStatePagerAdapter;
-    private ViewPager mViewPager;
+    private LockableViewPager mViewPager;
     private RelativeLayout mRelativeLayout;
 
     @Override
@@ -36,8 +37,10 @@ public class AccountSettingsActivity extends BaseActivity {
         Log.d(TAG, "onCreate: activity created");
 
 
-        mViewPager = (ViewPager) findViewById(R.id.view_pager_container);
+        mViewPager = (LockableViewPager) findViewById(R.id.view_pager_container);
         mRelativeLayout = (RelativeLayout) findViewById(R.id.setting_rel_layout1);
+
+        mViewPager.setSwipeLocked(true);
 
         setupFragment();
         setupBackButton();
