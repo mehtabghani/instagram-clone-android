@@ -33,6 +33,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/image_view_close"
                     android:layout_centerVertical="true"
+                    android:layout_marginRight="50dp"
                     android:gravity="center_vertical">
 
                 </Spinner>
