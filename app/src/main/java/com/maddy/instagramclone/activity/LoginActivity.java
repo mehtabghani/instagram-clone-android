@@ -3,11 +3,11 @@ package com.maddy.instagramclone.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.Group;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +25,7 @@ public class LoginActivity extends BaseActivity {
 
     //widgets
     private EditText mEmailField, mPasswordField;
-    private RelativeLayout mProgressView;
+    private Group mProgressGroup;
     private Button mBtnLogin;
     private TextView mSignUpTextView;
 
@@ -49,13 +49,13 @@ public class LoginActivity extends BaseActivity {
 
     private void setUpComponents() {
         Log.d(TAG, "setUpComponents: setting up widgets.");
-        mProgressView   = (RelativeLayout) findViewById(R.id.relLayout_progress_view);
-        mEmailField     = (EditText) findViewById(R.id.input_email);
-        mPasswordField  = (EditText) findViewById(R.id.input_password);
-        mBtnLogin       = (Button) findViewById(R.id.button_login);
-        mSignUpTextView = (TextView) findViewById(R.id.link_signup);
+        mProgressGroup  = findViewById(R.id.loaderGroup);
+        mEmailField     = findViewById(R.id.input_email);
+        mPasswordField  = findViewById(R.id.input_password);
+        mBtnLogin       = findViewById(R.id.button_login);
+        mSignUpTextView = findViewById(R.id.link_signup);
 
-        mProgressView.setVisibility(View.GONE);
+        mProgressGroup.setVisibility(View.GONE);
 
         mBtnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +84,7 @@ public class LoginActivity extends BaseActivity {
             return;
         }
 
-        mProgressView.setVisibility(View.VISIBLE);
+        mProgressGroup.setVisibility(View.VISIBLE);
         signinViaFirebase();
 
     }
@@ -123,13 +123,13 @@ public class LoginActivity extends BaseActivity {
         mFireBaseHelper.signIn(mEmail, mPassword, new iFireBaseListener() {
             @Override
             public void onCompletion(FirebaseUser currentUser) {
-                mProgressView.setVisibility(View.GONE);
+                mProgressGroup.setVisibility(View.GONE);
                 showHomeScreen();
             }
 
             @Override
             public void onFailure() {
-                mProgressView.setVisibility(View.GONE);
+                mProgressGroup.setVisibility(View.GONE);
             }
         });
     }
