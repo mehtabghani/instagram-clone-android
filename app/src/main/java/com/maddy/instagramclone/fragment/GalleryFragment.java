@@ -1,5 +1,6 @@
 package com.maddy.instagramclone.fragment;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.maddy.instagramclone.R;
+import com.maddy.instagramclone.activity.ShareNextActivity;
 import com.maddy.instagramclone.adapter.GridImageAdapter;
 import com.maddy.instagramclone.util.FilePath;
 import com.maddy.instagramclone.util.FileSearch;
@@ -42,6 +44,7 @@ public class GalleryFragment extends Fragment {
     private TextView mTVNext;
 
     private ArrayList<String> mDirectories;
+    private String mSelectedImage;
 
     @Nullable
     @Override
@@ -73,7 +76,10 @@ public class GalleryFragment extends Fragment {
         mTVNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "onClick: Navigating to final share screen."); 
+                Log.d(TAG, "onClick: Navigating to next share screen.");
+                Intent intent = new Intent(getActivity(), ShareNextActivity.class);
+                intent.putExtra(getString(R.string.share_image), mSelectedImage);
+                startActivity(intent);
             }
         });
 
@@ -91,14 +97,25 @@ public class GalleryFragment extends Fragment {
 
         mDirectories.add(FilePath.CAMERA);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, mDirectories);
+        final ArrayList<String> folders = new ArrayList<>();
+
+        for(int i=0 ; i < mDirectories.size();i++) {
+            String item = mDirectories.get(i);
+            int index = item.lastIndexOf("/");
+            String str = item.substring(index+1);
+            folders.add(str);
+        }
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, folders);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(adapter);
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d(TAG, "onItemSelected: item selected " + mDirectories.get(i));
-                setupGrid(mDirectories.get(i));
+                String selectedFolder = mDirectories.get(i);
+                Log.d(TAG, "onItemSelected: item selected " + selectedFolder);
+                 setupGrid(selectedFolder);
             }
 
             @Override
@@ -139,6 +156,8 @@ public class GalleryFragment extends Fragment {
 
     private void showSelectedImage(String url, ImageView imageView, String append) {
         Log.d(TAG, "showSelectedImage: setting selected image url to Main display image view");
+
+        mSelectedImage = url;
         ImageLoader loader = ImageLoader.getInstance();
         loader.displayImage(append + url, imageView, new ImageLoadingListener() {
             @Override

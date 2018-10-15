@@ -52,8 +52,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:numColumns="5"
-                android:verticalSpacing="1dp"
-                android:horizontalSpacing="1dp"
+                android:verticalSpacing="1.5dp"
+                android:horizontalSpacing="1.5dp"
                 android:stretchMode="none"
                 android:gravity="center"
                 android:layout_marginTop="1dp"/>
